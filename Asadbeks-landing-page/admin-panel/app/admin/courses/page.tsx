@@ -4,7 +4,7 @@ import { supabase, Course } from '@/lib/supabase'
 import { Plus, Pencil, Trash2, X, Loader2, Users, BookOpen } from 'lucide-react'
 import toast from 'react-hot-toast'
 
-const emptyForm = { name: '', price: 0, schedule: '', students_count: 0, type: 'both' as const, description: '', is_popular: false, is_active: true }
+const emptyForm = { name: '', price: 0, schedule: '', students_count: 0, type: 'both' as 'online' | 'offline' | 'both', description: '', is_popular: false, is_active: true }
 
 function EmptyState({ icon: Icon, title, subtitle, action }: any) {
   return (
