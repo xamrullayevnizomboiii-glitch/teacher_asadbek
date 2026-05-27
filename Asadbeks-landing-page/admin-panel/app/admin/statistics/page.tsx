@@ -90,7 +90,7 @@ export default function StatisticsPage() {
           <h3 className="admin-h3" style={{ fontSize: '15px', marginBottom: '20px' }}>Ko'p ko'rilgan sahifalar</h3>
           <ResponsiveContainer width="100%" height={220}>
             <PieChart>
-              <Pie data={pageData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={false}>
+              <Pie data={pageData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, percent }: any) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={false}>
                 {pageData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
               </Pie>
               <Tooltip contentStyle={tooltipStyle} />
