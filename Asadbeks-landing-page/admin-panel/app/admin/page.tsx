@@ -49,6 +49,18 @@ export default function DashboardPage() {
   const [recentEnrollments, setRecentEnrollments] = useState<Enrollment[]>([])
   const [courseStats, setCourseStats] = useState<{ name: string; yozilish: number }[]>([])
   const [loading, setLoading] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isVerySmall, setIsVerySmall] = useState(false)
+
+  useEffect(() => {
+    const check = () => {
+      setIsMobile(window.innerWidth < 768)
+      setIsVerySmall(window.innerWidth < 400)
+    }
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -141,14 +153,14 @@ export default function DashboardPage() {
   return (
     <div>
       <div style={{ marginBottom: '28px' }}>
-        <h1 className="admin-h1" style={{ fontSize: '24px', letterSpacing: '-0.5px' }}>Dashboard</h1>
+        <h1 className="admin-h1" style={{ fontSize: isMobile ? '18px' : '24px', letterSpacing: '-0.5px' }}>Dashboard</h1>
         <p className="admin-text" style={{ fontSize: '14px', marginTop: '4px' }}>
           Real ma'lumotlar bazasidan olingan statistika
         </p>
       </div>
 
       {/* Stat Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '28px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? (isVerySmall ? '1fr' : '1fr 1fr') : 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '28px' }}>
         {statCards.map(card => (
           <div key={card.label} className="stat-card">
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px' }}>
@@ -206,7 +218,7 @@ export default function DashboardPage() {
             {courseStats.every(c => c.yozilish === 0) ? (
               <EmptyState icon={InboxIcon} title="Yozilishlar yo'q" subtitle="Kursga birinchi yozilish kelganda bu yerda ko'rinadi" />
             ) : (
-              <ResponsiveContainer width="100%" height={220}>
+              <ResponsiveContainer width="100%" height={isMobile ? 180 : 220}>
                 <BarChart data={courseStats} margin={{ left: 0, right: 16 }} barSize={80}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
                   <XAxis dataKey="name" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} axisLine={false} tickLine={false} />
@@ -259,28 +271,30 @@ export default function DashboardPage() {
             }
           />
         ) : (
-          <table className="data-table">
-            <thead>
-              <tr><th>Ism</th><th>Telefon</th><th>Kurs</th><th>Holat</th><th>Vaqt</th></tr>
-            </thead>
-            <tbody>
-              {recentEnrollments.map(e => (
-                <tr key={e.id}>
-                  <td style={{ fontWeight: 600 }}>{e.full_name}</td>
-                  <td>{e.phone}</td>
-                  <td>{(e as any).courses?.name || '—'}</td>
-                  <td>
-                    <span className={`badge badge-${e.status}`}>
-                      {e.status === 'pending' ? 'Kutilmoqda' : e.status === 'approved' ? 'Tasdiqlangan' : 'Rad etilgan'}
-                    </span>
-                  </td>
-                  <td style={{ color: 'var(--text-muted)', fontSize: '12px' }}>
-                    {new Date(e.created_at).toLocaleString('uz-UZ')}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+            <table className="data-table">
+              <thead>
+                <tr><th>Ism</th><th>Telefon</th><th>Kurs</th><th>Holat</th><th>Vaqt</th></tr>
+              </thead>
+              <tbody>
+                {recentEnrollments.map(e => (
+                  <tr key={e.id}>
+                    <td style={{ fontWeight: 600 }}>{e.full_name}</td>
+                    <td>{e.phone}</td>
+                    <td>{(e as any).courses?.name || '—'}</td>
+                    <td>
+                      <span className={`badge badge-${e.status}`}>
+                        {e.status === 'pending' ? 'Kutilmoqda' : e.status === 'approved' ? 'Tasdiqlangan' : 'Rad etilgan'}
+                      </span>
+                    </td>
+                    <td style={{ color: 'var(--text-muted)', fontSize: '12px' }}>
+                      {new Date(e.created_at).toLocaleString('uz-UZ')}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

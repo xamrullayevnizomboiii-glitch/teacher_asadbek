@@ -31,6 +31,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [pendingCount, setPendingCount] = useState(0)
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
   const [authChecked, setAuthChecked] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     // Apply saved theme immediately
@@ -198,6 +206,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         position: 'fixed', top: 0, left: 0, height: '100vh',
         zIndex: 30, transition: 'width 0.25s ease',
         boxShadow: isDark ? '2px 0 12px rgba(0,0,0,0.2)' : '2px 0 12px rgba(0,0,0,0.04)',
+        display: isMobile ? 'none' : 'block',
       }}>
         <SidebarInner />
         {/* Collapse toggle */}
@@ -227,7 +236,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}
 
       {/* Main Content */}
-      <div style={{ flex: 1, marginLeft: sidebarW, display: 'flex', flexDirection: 'column', transition: 'margin-left 0.25s ease', minWidth: 0 }}>
+      <div style={{ flex: 1, marginLeft: isMobile ? 0 : sidebarW, display: 'flex', flexDirection: 'column', transition: 'margin-left 0.25s ease', minWidth: 0 }}>
         {/* Header */}
         <header style={{
           height: 64, background: 'var(--bg-sidebar)',
@@ -239,7 +248,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }}>
           {/* Hamburger (mobile) */}
           <button onClick={() => setMobileOpen(true)}
-            style={{ background: 'rgba(255,107,0,0.08)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex' }}>
+            style={{ background: 'rgba(255,107,0,0.08)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px', color: 'var(--text-muted)', cursor: 'pointer', display: isMobile ? 'flex' : 'none' }}>
             <Menu size={18} />
           </button>
 
@@ -261,8 +270,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             transition: 'all 0.2s',
           }}>
             {isDark
-              ? <><Sun size={15} color="#EAB308" /><span>Light</span></>
-              : <><Moon size={15} color="#6366F1" /><span>Dark</span></>
+              ? <><Sun size={15} color="#EAB308" />{!isMobile && <span>Light</span>}</>
+              : <><Moon size={15} color="#6366F1" />{!isMobile && <span>Dark</span>}</>
             }
           </button>
 
@@ -290,7 +299,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg, #FF6B00, #FF9A00)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '12px', color: 'white' }}>
                   {user.full_name?.charAt(0) || 'A'}
                 </div>
-                <span style={{ fontSize: '13px', fontWeight: 600 }}>{user.full_name?.split(' ')[0]}</span>
+                {!isMobile && <span style={{ fontSize: '13px', fontWeight: 600 }}>{user.full_name?.split(' ')[0]}</span>}
               </button>
               {dropdownOpen && (
                 <>
@@ -313,7 +322,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Page */}
-        <main style={{ flex: 1, padding: '28px 24px', background: 'var(--bg-main)', minHeight: 'calc(100vh - 64px)' }}>
+        <main style={{ flex: 1, padding: isMobile ? '16px 12px' : '28px 24px', background: 'var(--bg-main)', minHeight: 'calc(100vh - 64px)' }}>
           {children}
         </main>
       </div>

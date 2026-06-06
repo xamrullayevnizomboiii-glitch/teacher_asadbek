@@ -11,25 +11,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
     
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <!-- AOS CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
         :root {
-            --bg-main: #FFFAF5;
-            --bg-alt: #FFF3E8;
+            --bg-main: #FFF5EE;
+            --bg-alt: #FFEEDD;
             --card-bg: #FFFFFF;
             --card-border: rgba(255,107,0,0.1);
-            --text-main: #5C4A3A;
+            --text-main: #2D1F14;
             --text-desc: #5C4A3A;
             --accent: #FF6B00;
             --accent-dark: #FF9A00;
             --accent-blue: #3B82F6;
             --gradient-text: linear-gradient(90deg, #FF6B00, #FF9A00);
             --divider: transparent;
-            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --shadow: 0 10px 30px rgba(0,0,0,0.10);
             --transition: all 0.3s ease;
         }
 
@@ -43,9 +43,16 @@
             --divider: linear-gradient(90deg, transparent, rgba(255,107,0,0.3), transparent);
             --shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* WebKit Border-Radius Bug Fix — transform olib tashlandi (AOS bilan conflict qiladi) */
+        .course-card, .trophy-card, .stat-card, .mock-step, .cert-card, .schedule-card, .contact-card {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            will-change: transform;
+        }
 
+        html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
         html { scroll-behavior: smooth; }
 
         body {
@@ -55,7 +62,6 @@
             transition: var(--transition);
             line-height: 1.6;
             overflow-x: hidden;
-            font-style: italic;
         }
 
         /* All bold elements target */
@@ -64,7 +70,6 @@
         .stat-num, .stat-text, .course-price, .trophy-num, .trophy-text,
         .schedule-item, .contact-card p, .footer-logo, .theme-btn, .lang-btn,
         [style*="font-weight: 600"], [style*="font-weight: 700"], [style*="font-weight: 800"] {
-            font-family: "Times New Roman", Times, serif !important;
             font-style: normal !important;
         }
 
@@ -130,7 +135,7 @@
 
         .section-title {
             text-align: center;
-            font-size: 3rem;
+            font-size: 2.2rem;
             margin-bottom: 3rem;
         }
 
@@ -427,36 +432,47 @@
 
         .certs-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
         }
-
         .cert-card {
-            background: var(--bg-alt);
-            border: 1px solid var(--accent);
-            padding: 1.5rem;
             border-radius: 12px;
+            padding: 1.25rem 1rem;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        [data-theme="dark"] .cert-card {
-            background: #162236;
-        }
-
-        .cert-card h4 {
-            display: flex;
             align-items: center;
-            gap: 8px;
-            color: var(--accent);
-            font-size: 1.2rem;
+            gap: 10px;
+            text-align: center;
         }
-
-        .cert-card p {
-            font-size: 0.9rem;
-            color: var(--text-desc);
+        .cert-cefr {
+            background: rgba(255, 107, 0, 0.08);
+            border: 2px solid #FF6B00;
         }
+        .cert-aptis {
+            background: rgba(24, 95, 165, 0.08);
+            border: 2px solid #185FA5;
+        }
+        .cert-cefr .cert-icon-circle {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: #FF6B00;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cert-aptis .cert-icon-circle {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: #185FA5;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cert-icon-circle i { font-size: 26px; color: #fff; }
+        .cert-cefr h4, .cert-aptis h4 { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .cert-cefr p, .cert-aptis p { font-size: 11px; color: var(--text-secondary); margin: 0; }
+        .cert-divider-cefr {
+            width: 100%; border-top: 1px solid rgba(255,107,0,0.25); padding-top: 8px;
+        }
+        .cert-divider-aptis {
+            width: 100%; border-top: 1px solid rgba(24,95,165,0.25); padding-top: 8px;
+        }
+        .cert-cefr .cert-status { font-size: 11px; color: #FF6B00; font-weight: 600; }
+        .cert-aptis .cert-status { font-size: 11px; color: #185FA5; font-weight: 600; }
 
         /* Courses Section */
         .courses-grid {
@@ -740,23 +756,18 @@
 
         .contact-card.telegram { border-color: rgba(0,136,204,0.3); }
         .contact-card.telegram:hover { box-shadow: 0 0 25px rgba(0,136,204,0.2); transform: scale(1.03); }
-        .contact-card.telegram i { color: #0088CC; font-size: 3rem; }
 
         .contact-card.instagram { border-color: rgba(225,48,108,0.3); }
         .contact-card.instagram:hover { box-shadow: 0 0 25px rgba(225,48,108,0.2); transform: scale(1.03); }
-        .contact-card.instagram i { 
-            font-size: 3rem;
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-        }
 
         .contact-card.phone { border-color: rgba(37,211,102,0.3); }
         .contact-card.phone:hover { box-shadow: 0 0 25px rgba(37,211,102,0.2); transform: scale(1.03); }
-        .contact-card.phone i { color: #25D166; font-size: 3rem; }
 
-        .contact-card h4 { font-size: 1.5rem; }
+        .contact-card svg { width: 3rem; height: 3rem; margin-bottom: 0.5rem; }
+
+        .contact-card h4 { font-size: 1.5rem; margin-bottom: 0.5rem; }
         .contact-card p { font-weight: 600; font-size: 1.1rem; }
+        .contact-right { display: none; }
 
         /* Footer */
         footer {
@@ -814,6 +825,13 @@
         }
 
         @media (max-width: 768px) {
+            /* --- NAV & HAMBURGER --- */
+            .logo { font-size: 1.1rem; }
+
+            .header-content {
+                justify-content: space-between;
+            }
+
             .nav-links {
                 position: fixed; top: 90px; left: -100%;
                 width: 100%; height: calc(100vh - 90px);
@@ -823,15 +841,535 @@
             }
             .nav-links.active { left: 0; }
             .hamburger { display: block; }
-            .stats-grid, .results-grid, .mock-steps, .contact-grid { grid-template-columns: 1fr; }
-            .hero-text h1 { font-size: 3rem; }
-            .header-actions { display: none; }
-            .header-actions.mobile-visible {
-                display: flex; flex-direction: column;
-                position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-                background: var(--card-bg); padding: 15px; border-radius: 20px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1001;
+
+            /* Mobile actions */
+            #desktopActions { display: none !important; }
+            #mobileActions {
+                display: flex !important;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                flex: none;
+                margin-right: auto;
+                gap: 15px;
+                position: static;
+                background: transparent;
+                box-shadow: none;
+                padding: 10px 0 0 0;
+                transform: none;
+                width: auto;
             }
+            #mobileActions .toggle-pill {
+                padding: 1px;
+            }
+            #mobileActions .toggle-pill button {
+                padding: 4px 8px;
+                font-size: 0.65rem;
+            }
+            #themeToggleMobile { display: flex !important; }
+
+            /* --- GLOBAL MOBILE SPACING --- */
+            .container { padding: 0 16px; }
+            .py-20 { padding-top: 3rem; padding-bottom: 3rem; }
+            .section-title { font-size: 1.8rem; margin-bottom: 2rem; }
+
+            /* --- HERO SECTION --- */
+            .hero {
+                padding-top: 100px;
+                padding-bottom: 40px;
+                min-height: auto;
+            }
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            .hero-img-wrapper {
+                order: 3;
+                width: 100%;
+                margin-top: 0;
+            }
+            .hero-img {
+                width: 100%;
+                border-radius: 16px;
+            }
+            .hero-circle {
+                width: 150px; height: 150px;
+            }
+            .floating-badge {
+                bottom: 10px; right: -5px;
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+            .hero-text {
+                display: contents;
+            }
+            .hero-text h1 {
+                order: 1;
+                font-size: 1.7rem;
+                margin-bottom: 0.75rem;
+            }
+            .hero-text .desc {
+                order: 2;
+                font-size: 0.8rem;
+                margin-bottom: 1rem;
+            }
+            .hero-buttons {
+                order: 4;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+                flex-direction: column;
+            }
+            .hero-buttons .btn {
+                width: 100%;
+                display: block;
+                text-align: center;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+            .mini-stats {
+                order: 5;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 5px;
+                flex-wrap: nowrap;
+                width: 100%;
+                margin-top: 10px;
+            }
+            .mini-stats > span {
+                font-size: 0.65rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+                text-align: center;
+            }
+            .mini-stats i { font-size: 1rem; }
+
+            /* --- STATS SECTION --- */
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .stat-card {
+                padding: 1.5rem 1rem;
+                border-radius: 12px !important;
+            }
+            .stat-icon { font-size: 2rem; }
+            .stat-num { font-size: 2rem; }
+            .stat-text { font-size: 0.9rem; }
+
+            /* --- ABOUT SECTION --- */
+            .about-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "image"
+                    "title"
+                    "desc"
+                    "list"
+                    "cert-title"
+                    "certs";
+                justify-items: center;
+                gap: 15px;
+                align-items: center;
+            }
+            .about-grid > div {
+                display: contents;
+            }
+            .about-img {
+                grid-area: image;
+                width: 180px !important;
+                height: 180px !important;
+                border-radius: 50% !important;
+                object-fit: cover !important;
+                object-position: center top !important;
+                margin: 0 auto !important;
+                border: 3px solid var(--accent) !important;
+                transition: all 0.3s ease !important;
+            }
+            .about-grid h2,
+            .about-grid p,
+            .about-grid li,
+            .about-grid .about-desc,
+            .about-grid [data-aos] {
+                transition: all 0.3s ease !important;
+                animation-play-state: running !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            .about-grid h2 {
+                grid-area: title;
+                text-align: center;
+                font-size: 1.5rem !important;
+                margin-bottom: 0 !important;
+                line-height: 1.3;
+            }
+            .about-desc { 
+                grid-area: desc;
+                font-size: 0.85rem; margin-top: 0; line-height: 1.4; text-align: left;
+            }
+            .about-list { 
+                grid-area: list;
+                display: block;
+                margin-bottom: 10px;
+            }
+            .about-list li {
+                font-size: 0.85rem;
+                margin-bottom: 8px;
+            }
+            .about-grid h3 {
+                grid-area: cert-title;
+                font-size: 1.1rem;
+                margin-top: 5px;
+                text-align: left;
+            }
+            .certs-grid {
+                grid-area: certs;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .certs-title { font-size: 1.2rem; margin-top: 1.5rem; }
+            .cert-card { padding: 0.75rem; }
+            .cert-card h4 { font-size: 0.9rem; }
+            .cert-card p { font-size: 0.75rem; }
+
+            /* --- COURSES SECTION --- */
+            .courses-grid {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: visible;
+                scroll-snap-type: x mandatory;
+                width: 100%;
+                scroll-behavior: smooth;
+                gap: 20px;
+                padding: 15px 0;
+            }
+            .courses-grid::-webkit-scrollbar { display: none; }
+            .course-card {
+                min-width: 100%;
+                flex-shrink: 0;
+                padding: 1.5rem;
+                scroll-snap-align: center;
+                border-radius: 20px !important;
+                overflow: hidden !important;
+            }
+            .course-card.touch-active, .course-card:active, .course-card:focus {
+                transform: none !important;
+                scale: none !important;
+                box-shadow: none !important;
+            }
+            .course-grammar { background: rgba(59, 130, 246, 0.08) !important; }
+            .course-cefr { background: rgba(255, 107, 0, 0.08) !important; animation: none !important; }
+            .course-kids { background: rgba(34, 197, 94, 0.08) !important; }
+            .carousel-controls {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                margin-top: 5px;
+            }
+            .carousel-btn {
+                background: linear-gradient(135deg, var(--accent), #ff5100);
+                color: #fff;
+                border: none;
+                width: 48px; height: 48px;
+                border-radius: 50%;
+                display: flex; justify-content: center; align-items: center;
+                font-size: 1.2rem;
+                box-shadow: 0 4px 15px rgba(255,107,0,0.4);
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+            .carousel-btn:active {
+                transform: scale(0.9);
+                box-shadow: 0 2px 8px rgba(255,107,0,0.3);
+            }
+            .course-card h3 { font-size: 1.2rem !important; }
+            .course-price { font-size: 1.4rem; }
+            .course-details li { font-size: 0.85rem; margin-bottom: 0.5rem; }
+            .popular-badge {
+                top: 20px; right: -30px;
+                font-size: 0.6rem;
+                padding: 4px 28px;
+            }
+
+            /* --- MOCK TEST SECTION --- */
+            .mock-steps { display: none; }
+            .mock-steps-mobile {
+                display: block;
+                border: 2px solid var(--accent);
+                border-radius: 16px;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            .mock-step-row {
+                display: flex;
+                gap: 1rem;
+                align-items: flex-start;
+                padding: 1rem 0;
+                border-bottom: 1px solid var(--card-border);
+            }
+            .mock-step-row:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+            .mock-step-row .mock-icon {
+                font-size: 2rem;
+                margin-bottom: 0;
+            }
+            .mock-step-row h4 {
+                font-size: 0.9rem;
+                margin-bottom: 0.25rem;
+            }
+            .mock-step-row p {
+                font-size: 0.75rem;
+                color: var(--text-muted);
+                margin: 0;
+            }
+            .mock-rules {
+                padding: 1.5rem 1rem;
+            }
+            .mock-rules ul {
+                list-style: none;
+                padding-left: 0;
+            }
+            .mock-rules ul li {
+                font-size: 0.85rem;
+            }
+            .mock-rules ul li::before {
+                content: '✓ ';
+                color: var(--accent);
+                font-weight: 700;
+            }
+
+            /* --- RESULTS SECTION --- */
+            .results-grid {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: visible;
+                scroll-snap-type: x mandatory;
+                width: 100%;
+                scroll-behavior: smooth;
+                gap: 15px;
+                padding: 15px 5px;
+                height: auto;
+                align-items: stretch;
+            }
+            .results-grid::-webkit-scrollbar { display: none; }
+            .trophy-card {
+                position: static !important;
+                width: 100%;
+                min-width: 100%;
+                flex-shrink: 0;
+                scroll-snap-align: center;
+                padding: 1.5rem;
+                z-index: 1 !important;
+                box-shadow: none !important;
+                border-radius: 20px !important;
+            }
+            .trophy-icon { font-size: 2.5rem; }
+            .trophy-num { font-size: 1.8rem; }
+            .trophy-text { font-size: 0.8rem; height: auto; }
+
+            /* --- SCHEDULE & MAP SECTION --- */
+            .schedule-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .schedule-card {
+                padding: 1.5rem;
+                width: 100%;
+            }
+            .schedule-item {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 4px;
+                padding: 0.75rem 0;
+                font-size: 0.85rem;
+            }
+            .map-wrapper {
+                min-height: 250px;
+                height: 250px;
+                width: 100%;
+            }
+
+            /* --- CONTACT SECTION --- */
+            .contact-grid {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 10px;
+            }
+            .contact-card {
+                flex: 1;
+                padding: 1rem 0.2rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                aspect-ratio: 1;
+                border-radius: 10px;
+            }
+            .contact-card i { font-size: 1.5rem !important; }
+            .contact-card h4 { font-size: 0.75rem; margin: 4px 0; }
+            .contact-card p { font-size: 0.65rem; word-break: break-all; }
+
+            /* --- FOOTER --- */
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            /* --- BOG'LANISH BO'LIMI (Faqat mobil) --- */
+            .contact-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
+            .contact-card {
+                display: flex !important;
+                align-items: center !important;
+                gap: 12px !important;
+                border-radius: 10px !important;
+                padding: 12px 14px !important;
+                border-width: 1.5px !important;
+                border-style: solid !important;
+                text-align: left !important;
+            }
+            .contact-card.telegram { background: #dff0fa !important; border-color: #0088cc !important; }
+            .contact-card.instagram { background: #fde8f4 !important; border-color: #c13584 !important; }
+            .contact-card.phone { background: #dcf5e7 !important; border-color: #25a84b !important; }
+
+            .contact-card .contact-left {
+                width: 28px !important; height: 28px !important; flex-shrink: 0 !important;
+            }
+            .contact-card .contact-left svg {
+                width: 100% !important; height: 100% !important; margin: 0 !important;
+            }
+            .contact-card .contact-info h4 {
+                font-size: 13px !important; font-weight: 600 !important; flex: 1 !important; margin: 0 !important;
+            }
+            .contact-card.telegram  .contact-info h4 { color: #005f8e !important; }
+            .contact-card.instagram .contact-info h4 { color: #8b1a5a !important; }
+            .contact-card.phone     .contact-info h4 { color: #1a7035 !important; }
+
+            .contact-card .contact-info p { font-size: 11px !important; margin: 0 !important; font-weight: normal !important; }
+            .contact-card.telegram  .contact-info p { color: #0088cc !important; }
+            .contact-card.instagram .contact-info p { color: #c13584 !important; }
+            .contact-card.phone     .contact-info p { color: #25a84b !important; }
+
+            .contact-card .contact-right { margin-left: auto !important; font-size: 16px !important; padding-right: 0 !important; display: block !important; }
+            .contact-card.telegram  .contact-right { color: #0088cc !important; }
+            .contact-card.instagram .contact-right { color: #c13584 !important; }
+            .contact-card.phone     .contact-right { color: #25a84b !important; }
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            /* --- BUTTON GLOBAL --- */
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+
+            /* --- MODAL --- */
+            .modal-box {
+                position: absolute !important;
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                width: 90vw !important;
+                max-width: 400px !important;
+                max-height: 80vh !important;
+                overflow-y: auto !important;
+                padding: 20px 15px !important;
+                border-radius: 16px !important;
+                margin: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .modal-box h3 {
+                font-size: 1.25rem !important;
+                margin-bottom: 5px !important;
+            }
+            .modal-box p {
+                font-size: 0.8rem !important;
+                margin-bottom: 15px !important;
+            }
+            .modal-box form > div {
+                margin-bottom: 10px !important;
+            }
+            .modal-box label {
+                font-size: 0.85rem !important;
+                margin-bottom: 4px !important;
+            }
+            .modal-box input, .modal-box select, .modal-box button {
+                padding: 10px 12px !important;
+                font-size: 0.9rem !important;
+                box-sizing: border-box !important;
+                width: 100% !important;
+            }
+
+            /* --- USER REQUEST OVERRIDES --- */
+            /* 1. HERO TUGMALARI */
+            .hero-buttons { display: flex !important; flex-direction: row !important; gap: 10px !important; flex-wrap: nowrap !important; margin-left: 5px !important; }
+            .hero-buttons a, .hero-buttons button { flex: 1 !important; text-align: center !important; padding: 12px 8px !important; font-size: 13px !important; white-space: nowrap !important; }
+            /* 2. HERO SECTION */
+            .hero-section { display: flex !important; flex-direction: column !important; }
+            .hero-text { display: contents !important; }
+            .hero-text h1 { order: 1 !important; }
+            .hero-text .desc { order: 2 !important; }
+            .hero-img-wrapper { order: 3 !important; width: 100% !important; }
+            .hero-img { width: 100% !important; border-radius: 16px !important; }
+            .hero-buttons { order: 4 !important; }
+            .mini-stats { order: 5 !important; }
+            /* 3. SERTIFIKATLAR */
+            .certs-grid { display: grid !important; grid-template-columns: 1fr !important; gap: 12px !important; width: 100% !important; }
+            .cert-card { width: 100% !important; min-width: 0 !important; padding: 15px !important; transition: all 0.3s ease !important; }
+            .cert-card:active { transform: scale(0.98) !important; }
+            .cert-card .cert-icon-circle { width: 44px !important; height: 44px !important; }
+            .cert-card .cert-icon-circle i { font-size: 20px !important; }
+            /* 5. BOG'LANISH COMPACT */
+            .contact-list-mobile { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; }
+            .contact-row { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px !important; padding: 12px 14px !important; border-radius: 10px !important; border-width: 1.5px !important; border-style: solid !important; text-decoration: none !important; width: 100% !important; box-sizing: border-box !important; min-height: unset !important; height: auto !important; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; }
+            .contact-row:active { transform: scale(0.96) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; }
+            .telegram-row { background: #dff0fa !important; border-color: #0088cc !important; }
+            .instagram-row { background: #fde8f4 !important; border-color: #c13584 !important; }
+            .phone-row { background: #dcf5e7 !important; border-color: #25a84b !important; }
+            .crow-icon { width: 28px !important; height: 28px !important; flex-shrink: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+            .crow-icon svg { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; }
+            .contact-row:active .crow-icon svg { transform: rotate(15deg) scale(1.15) !important; }
+            .crow-body { flex: 1 !important; display: flex !important; flex-direction: column !important; gap: 2px !important; }
+            .crow-name { font-size: 13px !important; font-weight: 600 !important; display: block !important; }
+            .telegram-row .crow-name { color: #005f8e !important; }
+            .instagram-row .crow-name { color: #8b1a5a !important; }
+            .phone-row .crow-name { color: #1a7035 !important; }
+            .crow-val { font-size: 11px !important; display: block !important; }
+            .telegram-row .crow-val { color: #0088cc !important; }
+            .instagram-row .crow-val { color: #c13584 !important; }
+            .phone-row .crow-val { color: #25a84b !important; }
+            .crow-arrow { font-size: 18px !important; margin-left: auto !important; flex-shrink: 0 !important; }
+            .telegram-row .crow-arrow { color: #0088cc !important; }
+            .instagram-row .crow-arrow { color: #c13584 !important; }
+            .phone-row .crow-arrow { color: #25a84b !important; }
+            /* 7. KURSLAR TOUCH */
+            .course-card[data-aos] { animation: none !important; transform: none !important; opacity: 1 !important; transition: all 0.3s ease !important; }
+            .course-card:active, .course-card:focus { transform: none !important; scale: 1 !important; box-shadow: none !important; }
+            /* 9. ABOUT BO'LIMI RASMI */
+            .about-grid { grid-template-columns: 1fr !important; grid-template-areas: "image" "title" "desc" "list" "cert-title" "certs" !important; justify-items: center !important; }
+            .about-img { grid-area: image !important; width: 180px !important; height: 180px !important; border-radius: 50% !important; object-fit: cover !important; object-position: center top !important; margin: 0 auto !important; animation: float-straight 4s ease-in-out infinite !important; }
+            .about-grid h2 { grid-area: title !important; text-align: center !important; font-size: 1.5rem !important; }
+            /* 10. ABOUT ANIMATSIYALAR */
+            .about-img, .about-grid h2, .about-grid p, .about-grid li, .about-grid [data-aos] { transition: all 0.5s ease-out !important; opacity: 1 !important; transform: none !important; visibility: visible !important; }
+            /* --- TOUCH ANIMATSIYALAR CSS :active orqali emas, JS touch-active klass orqali ishlaydi --- */
+            /* touch-active klasslari yuqorida global CSS da aniqlangan */
         }
 
         .fade-transition {
@@ -841,55 +1379,73 @@
         .fade-out { opacity: 0; }
 
         /* --- CUSTOM REQUIREMENTS --- */
-        .font-times { font-family: "Times New Roman", Times, serif !important; }
+        .font-times { font-family: "Plus Jakarta Sans", sans-serif !important; }
         .text-brown { color: #5C4A3A !important; }
         [data-theme="dark"] .text-brown { color: #D4C3B3 !important; }
         .mock-rules.text-brown-rules ul li { color: #5C4A3A !important; }
         [data-theme="dark"] .mock-rules.text-brown-rules ul li { color: #D4C3B3 !important; }
         .icon-plus { color: #FF6B00; font-weight: bold; }
 
-        .stat-card { border: 2px solid #FF6B00 !important; }
-        .stat-card:hover { transform: scale(1.05) !important; background: rgba(255, 107, 0, 0.15) !important; }
+        .stat-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .stat-card:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(255, 107, 0, 0.4) !important; background: rgba(255, 107, 0, 0.15) !important; }
 
-        .cert-card { border: 2px solid #FF6B00 !important; transition: var(--transition); }
-        .cert-card:hover { transform: scale(1.05) !important; background: #FF6B00 !important; }
+        .stat-card-tajriba  { border: 1.5px solid #FF6B00 !important; background: #fff3e8 !important; color: #cc4400 !important; }
+        .stat-card-oquvchi  { border: 1.5px solid #378ADD !important; background: #e6f1fb !important; color: #185fa5 !important; }
+        .stat-card-sertif   { border: 1.5px solid #1D9E75 !important; background: #e1f5ee !important; color: #0f6e56 !important; }
+        .stat-card-insta    { border: 1.5px solid #D4537E !important; background: #fbeaf0 !important; color: #993556 !important; }
+        .stat-card-tajriba .stat-num, .stat-card-tajriba .stat-text { color: #cc4400 !important; }
+        .stat-card-oquvchi .stat-num, .stat-card-oquvchi .stat-text { color: #185fa5 !important; }
+        .stat-card-sertif .stat-num, .stat-card-sertif .stat-text { color: #0f6e56 !important; }
+        .stat-card-insta .stat-num, .stat-card-insta .stat-text { color: #993556 !important; }
+
+        .cert-card { border: 2px solid #FF6B00 !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .cert-card:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(255, 107, 0, 0.4) !important; background: #FF6B00 !important; }
         .cert-card:hover h4, .cert-card:hover p { color: #FFFFFF !important; }
 
-        .course-grammar { border: 2px solid #3B82F6 !important; }
-        .course-grammar:hover { transform: scale(1.05) !important; background: #3B82F6 !important; }
+        .course-grammar { background: rgba(59, 130, 246, 0.08) !important; border: 2px solid #3B82F6 !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .course-grammar:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4) !important; background: #3B82F6 !important; }
         .course-grammar:hover h3, .course-grammar:hover .course-icon, .course-grammar:hover .course-price, 
         .course-grammar:hover .course-details, .course-grammar:hover .course-details li, .course-grammar:hover .course-details span { color: #FFFFFF !important; }
         .course-grammar:hover .btn-blue { background: #FFFFFF !important; color: #3B82F6 !important; }
+        .course-kids { background: rgba(34, 197, 94, 0.08) !important; border: 2px solid #22C55E !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .course-kids:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(34, 197, 94, 0.4) !important; background: #22C55E !important; }
+        .course-kids:hover h3, .course-kids:hover .course-icon, .course-kids:hover .course-price, 
+        .course-kids:hover .course-details, .course-kids:hover .course-details li, .course-kids:hover .course-details span { color: #FFFFFF !important; }
+        .course-kids:hover .btn-green { background: #FFFFFF !important; color: #22C55E !important; }
+        .course-kids h3 { color: #22C55E; font-size: 2rem; }
+        .course-kids .course-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .btn-green { background: #22C55E; color: white; width: 100%; margin-top: auto; }
+        .btn-green:hover { background: #16a34a; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(34,197,94,0.3); }
 
-        .course-cefr { border: 2px solid #FF6B00 !important; background: var(--card-bg) !important; animation: none !important; }
-        .course-cefr:hover { transform: scale(1.05) !important; background: #FF6B00 !important; }
+        .course-cefr { background: rgba(255, 107, 0, 0.08) !important; border: 2px solid #FF6B00 !important; animation: none !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .course-cefr:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(255, 107, 0, 0.4) !important; background: #FF6B00 !important; }
         .course-cefr:hover h3, .course-cefr:hover .course-icon, .course-cefr:hover .course-price, 
         .course-cefr:hover .course-details, .course-cefr:hover .course-details li, .course-cefr:hover .course-details span { color: #FFFFFF !important; }
         .course-cefr:hover .btn-primary { background: #FFFFFF !important; color: #FF6B00 !important; }
 
-        .mock-step { background: rgba(255, 107, 0, 0.15) !important; border: 2px solid #FF6B00 !important; transition: var(--transition); }
-        .mock-step:hover { transform: scale(1.05) !important; }
+        .mock-step { background: rgba(255, 107, 0, 0.15) !important; border: 2px solid #FF6B00 !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .mock-step:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(255, 107, 0, 0.4) !important; }
 
-        .mock-rules { background: rgba(255, 107, 0, 0.15) !important; border: 2px solid #FF6B00 !important; transition: var(--transition); }
-        .mock-rules:hover { transform: scale(1.05) !important; }
+        .mock-rules { background: rgba(255, 107, 0, 0.15) !important; border: 2px solid #FF6B00 !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .mock-rules:hover { transform: scale(1.03) translateY(-3px) !important; box-shadow: 0 15px 35px rgba(255, 107, 0, 0.4) !important; }
 
-        .trophy-orange { background: rgba(255, 107, 0, 0.1) !important; border: 2px solid #FF6B00 !important; }
-        .trophy-orange:hover { transform: scale(1.05) !important; background: #FF6B00 !important; }
+        .trophy-orange { background: rgba(255, 107, 0, 0.1) !important; border: 2px solid #FF6B00 !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .trophy-orange:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(255, 107, 0, 0.4) !important; background: #FF6B00 !important; }
         .trophy-orange:hover .trophy-icon, .trophy-orange:hover .trophy-num, .trophy-orange:hover .trophy-text { color: #FFFFFF !important; }
         .trophy-orange:hover .prog-bar { background: #FFFFFF !important; }
 
-        .trophy-blue { background: rgba(59, 130, 246, 0.1) !important; border: 2px solid #3B82F6 !important; }
-        .trophy-blue:hover { transform: scale(1.05) !important; background: #3B82F6 !important; }
+        .trophy-blue { background: rgba(59, 130, 246, 0.1) !important; border: 2px solid #3B82F6 !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .trophy-blue:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4) !important; background: #3B82F6 !important; }
         .trophy-blue:hover .trophy-icon, .trophy-blue:hover .trophy-num, .trophy-blue:hover .trophy-text { color: #FFFFFF !important; }
         .trophy-blue:hover .prog-bar { background: #FFFFFF !important; }
 
-        .trophy-green { background: rgba(34, 197, 94, 0.1) !important; border: 2px solid #22C55E !important; }
-        .trophy-green:hover { transform: scale(1.05) !important; background: #22C55E !important; }
+        .trophy-green { background: rgba(34, 197, 94, 0.1) !important; border: 2px solid #22C55E !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .trophy-green:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(34, 197, 94, 0.4) !important; background: #22C55E !important; }
         .trophy-green:hover .trophy-icon, .trophy-green:hover .trophy-num, .trophy-green:hover .trophy-text { color: #FFFFFF !important; }
         .trophy-green:hover .prog-bar { background: #FFFFFF !important; }
 
-        .schedule-card { border: 2px solid #FF6B00 !important; transition: var(--transition); }
-        .schedule-card:hover { transform: scale(1.05) !important; background: rgba(255, 107, 0, 0.15) !important; }
+        .schedule-card { border: 2px solid #FF6B00 !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .schedule-card:hover { transform: scale(1.03) translateY(-3px) !important; box-shadow: 0 15px 35px rgba(255, 107, 0, 0.4) !important; background: rgba(255, 107, 0, 0.15) !important; }
         .schedule-card:hover .address-box { background: transparent !important; }
         .schedule-card:hover .btn-outline { background-color: #FF6B00 !important; color: #FFFFFF !important; border-color: #FF6B00 !important; }
 
@@ -909,19 +1465,155 @@
         .map-wrapper:hover { transform: scale(1.05) !important; border-color: #FF6B00 !important; }
         .map-wrapper:hover::after { opacity: 1; }
 
-        .contact-card.telegram { background: rgba(0, 136, 204, 0.1) !important; border: 2px solid #0088CC !important; }
-        .contact-card.telegram:hover { transform: scale(1.05) !important; background: #0088CC !important; }
+        .contact-card.telegram { background: rgba(0, 136, 204, 0.1) !important; border: 2px solid #0088CC !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .contact-card.telegram:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(0, 136, 204, 0.4) !important; background: #0088CC !important; }
         .contact-card.telegram:hover i, .contact-card.telegram:hover h4, .contact-card.telegram:hover p { color: #FFFFFF !important; }
 
-        .contact-card.instagram { background: rgba(225, 48, 108, 0.1) !important; border: 2px solid #E1306C !important; }
-        .contact-card.instagram:hover { transform: scale(1.05) !important; background: linear-gradient(45deg, #E1306C, #833AB4) !important; }
+        .contact-card.instagram { background: rgba(225, 48, 108, 0.1) !important; border: 2px solid #E1306C !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .contact-card.instagram:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(225, 48, 108, 0.4) !important; background: linear-gradient(45deg, #E1306C, #833AB4) !important; }
         .contact-card.instagram:hover i { background: none !important; -webkit-text-fill-color: #FFFFFF !important; color: #FFFFFF !important; }
         .contact-card.instagram:hover h4, .contact-card.instagram:hover p { color: #FFFFFF !important; }
 
-        .contact-card.phone { background: rgba(37, 209, 102, 0.1) !important; border: 2px solid #25D166 !important; }
-        .contact-card.phone:hover { transform: scale(1.05) !important; background: #25D166 !important; }
+        .contact-card.phone { background: rgba(37, 209, 102, 0.1) !important; border: 2px solid #25D166 !important; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .contact-card.phone:hover { transform: scale(1.08) translateY(-5px) !important; box-shadow: 0 15px 35px rgba(37, 209, 102, 0.4) !important; background: #25D166 !important; }
         .contact-card.phone:hover i, .contact-card.phone:hover h4, .contact-card.phone:hover p { color: #FFFFFF !important; }
-    </style>
+    
+        /* --- SVG MOTIFS FOR MOCK CARDS --- */
+        .motif-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border-radius: inherit; opacity: 0.15; pointer-events: none; z-index: 0; }
+        .motif-svg { width: 100%; height: 100%; object-fit: cover; }
+        .mock-content.relative { position: relative; z-index: 1; }
+        .ring-1 { animation: spin 15s linear infinite; transform-origin: 50% 50%; }
+        .ring-2 { animation: spin-reverse 20s linear infinite; transform-origin: 50% 50%; }
+        .ring-3 { animation: spin 10s linear infinite; transform-origin: 50% 50%; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+        .scanner-line { animation: scan 3s ease-in-out infinite alternate; }
+        @keyframes scan { 0% { transform: translateY(0); } 100% { transform: translateY(280px); } }
+        .pulse-path { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: dash 3s linear infinite; }
+        @keyframes dash { 0% { stroke-dashoffset: 1000; } 50% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -1000; } }
+
+        /* --- TOUCH ACTIVE CLASS (JavaScript controlled) --- */
+        /* Asosiy touch effekt */
+        .touch-active {
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.2) !important;
+            transition: all 0.3s ease !important;
+        }
+        /* Stat kartalar */
+        .stat-card.touch-active {
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.2) !important;
+            background: rgba(255, 107, 0, 0.15) !important;
+        }
+        /* Mock rules */
+        .mock-rules.touch-active {
+            transform: scale(1.03) !important;
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.3) !important;
+            background: rgba(255, 107, 0, 0.25) !important;
+        }
+        /* Trophy kartalar */
+        .trophy-card.touch-active {
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.3) !important;
+        }
+        .trophy-orange.touch-active {
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.4) !important;
+            background: #FF6B00 !important;
+        }
+        .trophy-orange.touch-active .trophy-icon,
+        .trophy-orange.touch-active .trophy-num,
+        .trophy-orange.touch-active .trophy-text { color: #FFFFFF !important; }
+        .trophy-blue.touch-active {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4) !important;
+            background: #3B82F6 !important;
+        }
+        .trophy-blue.touch-active .trophy-icon,
+        .trophy-blue.touch-active .trophy-num,
+        .trophy-blue.touch-active .trophy-text { color: #FFFFFF !important; }
+        .trophy-green.touch-active {
+            box-shadow: 0 0 30px rgba(37, 209, 102, 0.4) !important;
+            background: #22C55E !important;
+        }
+        .trophy-green.touch-active .trophy-icon,
+        .trophy-green.touch-active .trophy-num,
+        .trophy-green.touch-active .trophy-text { color: #FFFFFF !important; }
+        /* Contact kartalar */
+        .contact-card.telegram.touch-active {
+            transform: scale(1.05) !important;
+            background: #0088CC !important;
+            box-shadow: 0 0 30px rgba(0, 136, 204, 0.4) !important;
+            color: white !important;
+        }
+        .contact-card.telegram.touch-active i,
+        .contact-card.telegram.touch-active h4,
+        .contact-card.telegram.touch-active p { color: #FFFFFF !important; }
+        .contact-card.instagram.touch-active {
+            transform: scale(1.05) !important;
+            background: linear-gradient(45deg, #E1306C, #833AB4) !important;
+            box-shadow: 0 0 30px rgba(225, 48, 108, 0.4) !important;
+            color: white !important;
+        }
+        .contact-card.instagram.touch-active i { background: none !important; -webkit-text-fill-color: #FFFFFF !important; color: #FFFFFF !important; }
+        .contact-card.instagram.touch-active h4,
+        .contact-card.instagram.touch-active p { color: #FFFFFF !important; }
+        .contact-card.phone.touch-active {
+            transform: scale(1.05) !important;
+            background: #25D166 !important;
+            box-shadow: 0 0 30px rgba(37, 209, 102, 0.4) !important;
+            color: white !important;
+        }
+        .contact-card.phone.touch-active i,
+        .contact-card.phone.touch-active h4,
+        .contact-card.phone.touch-active p { color: #FFFFFF !important; }
+        /* Kurs kartalar */
+        .course-grammar.touch-active {
+            background: #3B82F6 !important;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4) !important;
+            transform: scale(1.03) !important;
+        }
+        .course-grammar.touch-active h3,
+        .course-grammar.touch-active .course-icon,
+        .course-grammar.touch-active .course-price,
+        .course-grammar.touch-active .course-details li,
+        .course-grammar.touch-active .course-details span { color: #FFFFFF !important; }
+        .course-grammar.touch-active .btn-blue { background: #FFFFFF !important; color: #3B82F6 !important; }
+        .course-cefr.touch-active {
+            background: #FF6B00 !important;
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.4) !important;
+            transform: scale(1.03) !important;
+        }
+        .course-cefr.touch-active h3,
+        .course-cefr.touch-active .course-icon,
+        .course-cefr.touch-active .course-price,
+        .course-cefr.touch-active .course-details li,
+        .course-cefr.touch-active .course-details span { color: #FFFFFF !important; }
+        .course-cefr.touch-active .btn-primary { background: #FFFFFF !important; color: #FF6B00 !important; }
+        .course-kids.touch-active {
+            background: #22C55E !important;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4) !important;
+            transform: scale(1.03) !important;
+        }
+        .course-kids.touch-active h3,
+        .course-kids.touch-active .course-icon,
+        .course-kids.touch-active .course-price,
+        .course-kids.touch-active .course-details li,
+        .course-kids.touch-active .course-details span { color: #FFFFFF !important; }
+        .course-kids.touch-active .btn-green { background: #FFFFFF !important; color: #22C55E !important; }
+        /* Sertifikat kartalar */
+        .cert-card.touch-active {
+            background: #FF6B00 !important;
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.4) !important;
+            transform: scale(1.05) !important;
+        }
+        .cert-card.touch-active h4,
+        .cert-card.touch-active p { color: #FFFFFF !important; }
+        /* Schedule kartasi */
+        .schedule-card.touch-active {
+            background: rgba(255, 107, 0, 0.15) !important;
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.3) !important;
+            transform: scale(1.02) !important;
+        }
+</style>
 </head>
 <body data-theme="light">
 
@@ -949,28 +1641,27 @@
                 </div>
             </div>
 
+            <div class="header-actions" id="mobileActions" style="display: none;">
+                <div class="toggle-pill lang-selector">
+                    <button class="lang-btn active" data-lang="uz">UZB</button>
+                    <button class="lang-btn" data-lang="ru">RUS</button>
+                    <button class="lang-btn" data-lang="en">ENG</button>
+                </div>
+                <div class="toggle-pill theme-toggle" id="themeToggleMobile">
+                    <button class="theme-btn active" data-mode="light">☀️</button>
+                    <button class="theme-btn" data-mode="dark">🌙</button>
+                </div>
+            </div>
+
             <button class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
     </header>
 
-    <!-- Mobile Actions Portal -->
-    <div class="header-actions" id="mobileActions" style="display: none;">
-        <div class="toggle-pill lang-selector">
-            <button class="lang-btn active" data-lang="uz">UZB</button>
-            <button class="lang-btn" data-lang="ru">RUS</button>
-            <button class="lang-btn" data-lang="en">ENG</button>
-        </div>
-        <div class="toggle-pill theme-toggle" id="themeToggleMobile" style="margin-top: 10px;">
-            <button class="theme-btn active" data-mode="light">☀️ Light</button>
-            <button class="theme-btn" data-mode="dark">🌙 Dark</button>
-        </div>
-    </div>
-
     <!-- Hero Section -->
     <section class="hero fade-transition" id="home">
-        <div class="container hero-content">
+        <div class="container hero-content hero-section">
             <div class="hero-text" data-aos="fade-right">
                 <h1 data-i18n="hero_title" class="font-times">Ingliz tilini professional darajada o'rganing</h1>
                 <p class="desc text-brown" data-i18n="hero_desc">6 yillik tajriba, 70+ B2 sertifikatli o'quvchilar, amaliy va natijaga yo'naltirilgan ta'lim.</p>
@@ -1000,22 +1691,22 @@
     <!-- Stats Section -->
     <section class="py-20 bg-alt fade-transition">
         <div class="container stats-grid" id="statsSection">
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="0">
+            <div class="stat-card stat-card-tajriba" data-aos="zoom-in" data-aos-delay="0">
                 <div class="stat-icon">⏳</div>
                 <div class="stat-num counter" data-target="6">0</div>
                 <div class="stat-text" data-i18n="stats_exp">Yil tajriba</div>
             </div>
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+            <div class="stat-card stat-card-oquvchi" data-aos="zoom-in" data-aos-delay="150">
                 <div class="stat-icon">👨‍🎓</div>
                 <div class="stat-num counter" data-target="500">0</div>
                 <div class="stat-text" data-i18n="stats_students">O'quvchilar</div>
             </div>
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+            <div class="stat-card stat-card-sertif" data-aos="zoom-in" data-aos-delay="300">
                 <div class="stat-icon">🏆</div>
                 <div class="stat-num counter" data-target="70">0</div>
                 <div class="stat-text" data-i18n="stats_certs">B2 Sertifikat</div>
             </div>
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+            <div class="stat-card stat-card-insta" data-aos="zoom-in" data-aos-delay="450">
                 <div class="stat-icon">📱</div>
                 <div class="stat-num counter" data-target="15000">0</div>
                 <div class="stat-text" data-i18n="stats_insta">Instagram obunachi</div>
@@ -1043,14 +1734,16 @@
 
                 <h3 class="certs-title" data-i18n="certs_title">Ustoz Sertifikatlari va Yutuqlari</h3>
                 <div class="certs-grid">
-                    <div class="cert-card">
-                        <h4>🏅 CEFR C1</h4>
-                        <p data-i18n="cert_c1">Ingliz tilida yuqori malaka darajasi</p>
-                    </div>
-                    <div class="cert-card">
-                        <h4>🏅 APTIS</h4>
-                        <p data-i18n="cert_aptis">British Council tomonidan berilgan xalqaro sertifikat</p>
-                    </div>
+                  <div class="cert-card cert-cefr">
+                    <div class="cert-icon-circle"><i class="ti ti-medal"></i></div>
+                    <div><h4>CEFR C1</h4><p>Ingliz tili · C1</p></div>
+                    <div class="cert-divider-cefr"><span class="cert-status">Tasdiqlangan ✓</span></div>
+                  </div>
+                  <div class="cert-card cert-aptis">
+                    <div class="cert-icon-circle"><i class="ti ti-rosette"></i></div>
+                    <div><h4>APTIS</h4><p>British Council</p></div>
+                    <div class="cert-divider-aptis"><span class="cert-status">Xalqaro ✓</span></div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -1060,7 +1753,7 @@
     <hr class="section-divider">
     <section class="py-20 bg-alt fade-transition" id="courses">
         <div class="container">
-            <h2 class="section-title" data-i18n="courses_title">Bizning Kurslar</h2>
+            <h2 class="section-title" data-aos="fade-up" data-i18n="courses_title">Bizning Kurslar</h2>
             
             <div class="courses-grid" id="coursesGrid">
                 <!-- Courses will be loaded here dynamically from Supabase -->
@@ -1075,24 +1768,48 @@
     <hr class="section-divider">
     <section class="py-20 fade-transition" id="mocktest">
         <div class="container mock-test">
-            <h2 class="section-title font-times" data-i18n="mock_title">Noyob Mock Test Tizimi</h2>
-            <p class="desc mock-desc" data-i18n="mock_desc">O'zbekistonda birinchi marta — mock testdan o'tgan o'quvchilarga imtihon registratsiya pulini ustoz to'laydi!</p>
+            <h2 class="section-title font-times" data-aos="fade-up" data-i18n="mock_title">Noyob Mock Test Tizimi</h2>
+            <p class="desc mock-desc" data-aos="fade-up" data-i18n="mock_desc">O'zbekistonda birinchi marta — mock testdan o'tgan o'quvchilarga imtihon registratsiya pulini ustoz to'laydi!</p>
             
             <div class="mock-steps">
-                <div class="mock-step" data-aos="zoom-in">
+                <div class="mock-step" data-aos="fade-up">
                     <div class="mock-icon">📝</div>
                     <h4 data-i18n="mock_s1_title">Har shanba CEFR mock test</h4>
                     <span class="desc text-brown" data-i18n="mock_s1_desc">Haqiqiy imtihon sharoitida test topshirasiz</span>
                 </div>
-                <div class="mock-step" data-aos="zoom-in" data-aos-delay="150">
+                <div class="mock-step" data-aos="fade-up" data-aos-delay="150">
                     <div class="mock-icon">🎯</div>
                     <h4 data-i18n="mock_s2_title">55+ ball olasiz</h4>
                     <span class="desc text-brown" data-i18n="mock_s2_desc">Maqsadli ball — B2 sertifikatiga yo'l</span>
                 </div>
-                <div class="mock-step" data-aos="zoom-in" data-aos-delay="300">
+                <div class="mock-step" data-aos="fade-up" data-aos-delay="300">
                     <div class="mock-icon">🎁</div>
                     <h4 data-i18n="mock_s3_title">Imtihon puli ustozdan</h4>
                     <span class="desc text-brown" data-i18n="mock_s3_desc">Registratsiya to'lovini ustoz Asadbek o'z zimmasiga oladi</span>
+                </div>
+            </div>
+
+            <div class="mock-steps-mobile" style="display: none;">
+                <div class="mock-step-row">
+                    <div class="mock-icon">📝</div>
+                    <div>
+                        <h4 data-i18n="mock_s1_title">Har shanba mock test bo'lib o'tadi</h4>
+                        <p data-i18n="mock_s1_desc">Haqiqiy imtihon sharoitida test topshirasiz</p>
+                    </div>
+                </div>
+                <div class="mock-step-row">
+                    <div class="mock-icon">🎯</div>
+                    <div>
+                        <h4 data-i18n="mock_s2_title">55+ ball olasiz</h4>
+                        <p data-i18n="mock_s2_desc">Maqsadli ball — B2 sertifikatiga yo'l</p>
+                    </div>
+                </div>
+                <div class="mock-step-row">
+                    <div class="mock-icon">🎁</div>
+                    <div>
+                        <h4 data-i18n="mock_s3_title">Imtihon puli ustozdan</h4>
+                        <p data-i18n="mock_s3_desc">Registratsiya to'lovini teacher arakulov o'z zimmasiga oladi</p>
+                    </div>
                 </div>
             </div>
 
@@ -1113,7 +1830,7 @@
     <!-- Results Section -->
     <section class="py-20 bg-alt fade-transition" id="results">
         <div class="container">
-            <h2 class="section-title font-times" data-i18n="results_title">O'quvchilarimiz Natijalari</h2>
+            <h2 class="section-title font-times" data-aos="fade-up" data-i18n="results_title">O'quvchilarimiz Natijalari</h2>
             
             <div class="results-grid" id="resultsSection">
                 <!-- Card 1 -->
@@ -1195,26 +1912,49 @@
     <hr class="section-divider">
     <section class="py-20 fade-transition" id="contact">
         <div class="container">
-            <h2 class="section-title font-times" data-i18n="contact_title">Bog'lanish</h2>
+            <h2 class="section-title font-times" data-aos="fade-up" data-i18n="contact_title">Bog'lanish</h2>
             
-            <div class="contact-grid">
-                <a href="https://t.me/Multilevel_instructor1" target="_blank" class="contact-card telegram" data-aos="flip-up">
-                    <i class="fab fa-telegram-plane"></i>
-                    <h4 class="font-times">Telegram</h4>
-                    <p class="desc">@Multilevel_instructor1</p>
-                </a>
-                
-                <a href="https://instagram.com/teacher_arakulov" target="_blank" class="contact-card instagram" data-aos="flip-up" data-aos-delay="150">
-                    <i class="fab fa-instagram"></i>
-                    <h4 class="font-times">Instagram</h4>
-                    <p class="desc">teacher_arakulov</p>
-                </a>
-                
-                <a href="tel:+998995282728" class="contact-card phone" data-aos="flip-up" data-aos-delay="300">
-                    <i class="fas fa-phone-alt"></i>
-                    <h4 class="font-times">Telefon</h4>
-                    <p class="desc">+998 99 528 27 28</p>
-                </a>
+            <div class="contact-list-mobile">
+
+              <a class="contact-row telegram-row" href="https://t.me/Multilevel_instructor1">
+                <div class="crow-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#0088cc">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.92c-.12.56-.44.7-.9.44l-2.5-1.84-1.2 1.16c-.14.14-.26.26-.52.26l.18-2.6 4.74-4.28c.2-.18-.04-.28-.32-.1L7.6 14.96l-2.44-.76c-.54-.16-.56-.54.1-.8l9.54-3.68c.44-.16.84.1.7.8z"/>
+                  </svg>
+                </div>
+                <div class="crow-body">
+                  <span class="crow-name">Telegram</span>
+                  <span class="crow-val">@Multilevel_instructor1</span>
+                </div>
+                <span class="crow-arrow">›</span>
+              </a>
+
+              <a class="contact-row instagram-row" href="https://instagram.com/teacher_arakulov">
+                <div class="crow-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#c13584">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>
+                </div>
+                <div class="crow-body">
+                  <span class="crow-name">Instagram</span>
+                  <span class="crow-val">teacher_arakulov</span>
+                </div>
+                <span class="crow-arrow">›</span>
+              </a>
+
+              <a class="contact-row phone-row" href="tel:+998995282728">
+                <div class="crow-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#25a84b">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                  </svg>
+                </div>
+                <div class="crow-body">
+                  <span class="crow-name">Telefon</span>
+                  <span class="crow-val">+998 99 528 27 28</span>
+                </div>
+                <span class="crow-arrow">›</span>
+              </a>
+
             </div>
         </div>
     </section>
@@ -1279,10 +2019,46 @@
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // Initialize GSAP Mobile Stacked Cards Animation
+        function initMobileStackedCards() {
+            if (window.innerWidth <= 768) {
+                let cards = gsap.utils.toArray('.mock-step');
+                cards.forEach((card, index) => {
+                    if (index !== cards.length - 1) {
+                        gsap.to(card, {
+                            scale: 0.9,
+                            filter: "blur(10px)",
+                            opacity: 0.5,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: cards[index + 1],
+                                start: "top 70%",
+                                end: "top 20%",
+                                scrub: true
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            initMobileStackedCards();
+        });
+
         // AOS Init
-        AOS.init({ once: true, offset: 100, duration: 800 });
+        AOS.init({ once: false, duration: 800, offset: 80, easing: 'ease-out-cubic' });
+
+        // AOS refresh on anchor click
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', () => {
+                setTimeout(() => { AOS.refresh(); }, 600);
+            });
+        });
 
         // Hamburger Menu
         const hamburger = document.getElementById('hamburger');
@@ -1294,12 +2070,8 @@
             
             if(navLinks.classList.contains('active')) {
                 hamburger.innerHTML = '<i class="fas fa-times"></i>';
-                mobileActions.classList.add('mobile-visible');
-                mobileActions.style.display = 'flex';
             } else {
                 hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                mobileActions.classList.remove('mobile-visible');
-                mobileActions.style.display = 'none';
             }
         });
 
@@ -1307,8 +2079,6 @@
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
                 hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                mobileActions.classList.remove('mobile-visible');
-                mobileActions.style.display = 'none';
             });
         });
 
@@ -1444,6 +2214,8 @@
         // Counters & Progress Bars Animation
         const animateCounters = () => {
             document.querySelectorAll('.counter').forEach(counter => {
+                if (counter.dataset.animated) return;
+                counter.dataset.animated = 'true';
                 const target = +counter.getAttribute('data-target');
                 const speed = 100;
                 let count = 0;
@@ -1472,7 +2244,7 @@
         let statsDone = false;
         let resultsDone = false;
 
-        window.addEventListener('scroll', () => {
+        const checkVisibility = () => {
             const stats = document.getElementById('statsSection');
             const results = document.getElementById('resultsSection');
             const screen = window.innerHeight;
@@ -1486,9 +2258,14 @@
                 animateProgress();
                 resultsDone = true;
             }
-        });
+        };
+
+        window.addEventListener('scroll', checkVisibility);
+        setTimeout(checkVisibility, 500);
 
         // Supabase Integration
+        // OGOHLANTIRISH: Quyidagi maxfiy API kalitlari va Bot Tokenlarni ochiq kodda 
+        // qoldirish xavfsizlikka ziddir! Ularni backend'ga yashirish tavsiya qilinadi.
         const SUPABASE_URL = 'https://cxbtauopxdywwcxhpnds.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4YnRhdW9weGR5d3djeGhwbmRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjcwODMsImV4cCI6MjA5NDc0MzA4M30.ebj5JUVBb_XLru6t5mTjbNL2WT44AyWKr4PVbVa-sq8';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1496,9 +2273,21 @@
         // Fetch Courses
         async function loadCourses() {
             try {
-                const { data: courses, error } = await supabaseClient.from('courses').select('*').eq('is_active', true).order('created_at');
+                const { data: dbCourses, error } = await supabaseClient.from('courses').select('*').eq('is_active', true).order('created_at');
                 if (error) throw error;
                 
+                let courses = dbCourses || [];
+                courses.push({
+                    id: 'kids_group',
+                    name: 'Bolalar uchun guruh',
+                    price: 250000,
+                    schedule: 'Juft kunlari 10:00-12:00',
+                    students_count: 26,
+                    type: 'Faqat offline',
+                    description: 'Yoshi: 6 yoshdan 12 yoshgacha',
+                    is_popular: false
+                });
+
                 const grid = document.getElementById('coursesGrid');
                 const courseSelect = document.getElementById('enrollCourse');
                 grid.innerHTML = '';
@@ -1515,13 +2304,21 @@
                     opt.textContent = c.name;
                     courseSelect.appendChild(opt);
 
-                    const delay = index * 100;
+                    const delay = index * 150;
+                    const aosDel = index * 150;
                     const isCefr = c.name.toLowerCase().includes('cefr'); // specific styling if it's CEFR
+                    const isKids = c.name.toLowerCase().includes('bolalar');
+                    
+                    let cardClass = 'course-grammar';
+                    let btnClass = 'btn-blue';
+                    let icon = '📚';
+                    if (isCefr) { cardClass = 'course-cefr'; btnClass = 'btn-primary'; icon = '🏆'; }
+                    if (isKids) { cardClass = 'course-kids'; btnClass = 'btn-green'; icon = '🧸'; }
                     
                     const cardHTML = `
-                        <div class="course-card ${isCefr ? 'course-cefr' : 'course-grammar'}" data-aos="fade-up" data-aos-delay="${delay}">
+                        <div class="course-card ${cardClass}" data-aos="zoom-in" data-aos-delay="${aosDel}">
                             ${c.is_popular ? '<div class="popular-badge">Eng mashhur</div>' : ''}
-                            <div class="course-icon">${isCefr ? '🏆' : '📚'}</div>
+                            <div class="course-icon">${icon}</div>
                             <h3 class="font-times">${c.name}</h3>
                             <div class="course-price">${c.price.toLocaleString()} so'm/oy</div>
                             
@@ -1532,11 +2329,45 @@
                                 <li class="italic-desc">📝 <span>${c.description}</span></li>
                             </ul>
                             
-                            <button class="btn ${isCefr ? 'btn-primary' : 'btn-blue'}" onclick="openModal('${c.id}', '${c.name}')" style="width:100%;margin-top:auto;">Darsga yozilish</button>
+                            <button class="btn ${btnClass}" onclick="openModal('${c.id}', '${c.name}')" style="width:100%;margin-top:auto;">Darsga yozilish</button>
                         </div>
                     `;
                     grid.insertAdjacentHTML('beforeend', cardHTML);
                 });
+
+                // Apply touch events to dynamically created course cards
+                grid.querySelectorAll('.course-card').forEach(card => {
+                    card.addEventListener('touchstart', () => {
+                        card.classList.add('touch-active');
+                    }, { passive: true });
+                    card.addEventListener('touchend', () => {
+                        setTimeout(() => card.classList.remove('touch-active'), 400);
+                    }, { passive: true });
+                    card.addEventListener('touchcancel', () => {
+                        setTimeout(() => card.classList.remove('touch-active'), 400);
+                    }, { passive: true });
+                });
+
+                // Refresh AOS for newly inserted cards
+                if (typeof AOS !== 'undefined') AOS.refresh();
+
+                // Initialize mobile carousel
+                if (window.innerWidth <= 768 && courses.length > 1) {
+                    const controlsHTML = `
+                        <div class="carousel-controls" style="grid-column: 1/-1; width: 100%;">
+                            <button class="carousel-btn" id="prevCourse"><i class="fas fa-chevron-left"></i></button>
+                            <button class="carousel-btn" id="nextCourse"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    `;
+                    grid.insertAdjacentHTML('afterend', controlsHTML);
+                    
+                    document.getElementById('prevCourse').addEventListener('click', () => {
+                        grid.scrollBy({ left: -grid.clientWidth, behavior: 'smooth' });
+                    });
+                    document.getElementById('nextCourse').addEventListener('click', () => {
+                        grid.scrollBy({ left: grid.clientWidth, behavior: 'smooth' });
+                    });
+                }
             } catch (err) {
                 console.error("Kurslarni yuklashda xatolik:", err);
             }
@@ -1699,6 +2530,88 @@ Iltimos, tezroq aloqaga chiqing!</i> 🚀
                 btn.disabled = false;
             }
         });
+
+        // Mobile visibility check
+        function checkMobile() {
+            if (window.innerWidth <= 768) {
+                mobileActions.style.display = 'flex';
+            } else {
+                mobileActions.style.display = 'none';
+            }
+        }
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        // =============================================
+        // TOUCH ANIMATSIYALAR — mobil qurilmalar uchun
+        // =============================================
+        function applyTouchEvents(selector) {
+            document.querySelectorAll(selector).forEach(card => {
+                // Bir marta qo'shilganini tekshirish
+                if (card.dataset.touchBound) return;
+                card.dataset.touchBound = 'true';
+
+                card.addEventListener('touchstart', () => {
+                    card.classList.add('touch-active');
+                }, { passive: true });
+
+                card.addEventListener('touchend', () => {
+                    setTimeout(() => card.classList.remove('touch-active'), 400);
+                }, { passive: true });
+
+                card.addEventListener('touchcancel', () => {
+                    card.classList.remove('touch-active');
+                }, { passive: true });
+            });
+        }
+
+        // Barcha statik kartalar uchun touch events
+        const touchTargets = [
+            '.stat-card', '.cert-card', '.mock-step', '.mock-rules',
+            '.trophy-card', '.schedule-card', '.contact-card'
+        ];
+        touchTargets.forEach(sel => applyTouchEvents(sel));
+
+        // Dinamik yuklanadigan kurs kartalar uchun — loadCourses tugagandan so'ng chaqiriladi
+        // (loadCourses ichida ham qo'shilgan, bu zaxira sifatida)
+        setInterval(() => {
+            if (document.querySelectorAll('.course-card').length > 0) {
+                applyTouchEvents('.course-card');
+            }
+        }, 1000);
+
+        // Mobile Results Carousel Logic
+        const initResultsCarousel = () => {
+            if (window.innerWidth <= 768) {
+                const resultsGrid = document.querySelector('.results-grid');
+                if (resultsGrid && document.querySelectorAll('.trophy-card').length > 1) {
+                    const controlsHTML = `
+                        <div class="carousel-controls" style="width: 100%; margin-top: 15px;">
+                            <button class="carousel-btn" id="prevResult"><i class="fas fa-chevron-left"></i></button>
+                            <button class="carousel-btn" id="nextResult"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    `;
+                    resultsGrid.insertAdjacentHTML('afterend', controlsHTML);
+                    
+                    document.getElementById('prevResult').addEventListener('click', () => {
+                        resultsGrid.scrollBy({ left: -resultsGrid.clientWidth, behavior: 'smooth' });
+                    });
+                    document.getElementById('nextResult').addEventListener('click', () => {
+                        resultsGrid.scrollBy({ left: resultsGrid.clientWidth, behavior: 'smooth' });
+                    });
+                }
+            }
+        };
+        initResultsCarousel();
+        // mobil uchun AOS qayta init
+        if (window.innerWidth <= 768) {
+            AOS.init({
+                once: true,
+                duration: 600,
+                easing: 'ease-out'
+            });
+            AOS.refresh();
+        }
     </script>
 </body>
 </html>
