@@ -236,7 +236,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}
 
       {/* Main Content */}
-      <div style={{ flex: 1, marginLeft: isMobile ? 0 : sidebarW, display: 'flex', flexDirection: 'column', transition: 'margin-left 0.25s ease', minWidth: 0 }}>
+      <div style={{ flex: 1, marginLeft: isMobile ? 0 : sidebarW, width: isMobile ? '100%' : undefined, display: 'flex', flexDirection: 'column', transition: 'margin-left 0.25s ease', minWidth: 0 }}>
         {/* Header */}
         <header style={{
           height: 64, background: 'var(--bg-sidebar)',
@@ -327,7 +327,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </main>
       </div>
 
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (max-width: 768px) {
+          .data-table {
+            min-width: 600px !important;
+          }
+          .admin-card, .card {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+          }
+          table {
+            min-width: 500px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }
