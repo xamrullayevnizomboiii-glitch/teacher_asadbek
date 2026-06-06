@@ -82,6 +82,14 @@ export default function MessagesPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [newKey, setNewKey] = useState('')
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     const fetch = async () => {
@@ -160,7 +168,7 @@ export default function MessagesPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', gap: isMobile ? '12px' : '0', marginBottom: '28px' }}>
         <div>
           <h1 className="admin-h1" style={{ fontSize: '24px' }}>Matnlar va Tarjimalar</h1>
           <p className="admin-text" style={{ fontSize: '14px', marginTop: '4px' }}>Landing page dagi barcha yozuvlarni tahrirlash</p>
@@ -172,69 +180,90 @@ export default function MessagesPage() {
       </div>
 
       <div className="admin-card" style={{ marginBottom: '20px' }}>
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '10px' }}>
           <input 
             type="text" 
             className="form-input" 
             placeholder="Yangi matn klyuchi (masalan: welcome_text)" 
             value={newKey} 
             onChange={(e) => setNewKey(e.target.value)} 
+            style={{ flex: 1, width: isMobile ? '100%' : undefined }}
           />
-          <button className="btn-primary" onClick={handleAddKey} style={{ whiteSpace: 'nowrap' }}><Plus size={16} /> Qo'shish</button>
+          <button className="btn-primary" onClick={handleAddKey} style={{ whiteSpace: 'nowrap', width: isMobile ? '100%' : undefined }}><Plus size={16} /> Qo'shish</button>
         </div>
       </div>
 
       <div className="admin-card" style={{ padding: 0, overflowX: 'auto' }}>
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th style={{ width: '15%' }}>Klyuch</th>
-              <th style={{ width: '25%' }}>O'zbekcha</th>
-              <th style={{ width: '25%' }}>Ruscha</th>
-              <th style={{ width: '25%' }}>Inglizcha</th>
-              <th style={{ width: '10%' }}>Amal</th>
-            </tr>
-          </thead>
-          <tbody>
+        {isMobile ? (
+          <div style={{ padding: '12px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {allKeys.map(key => (
-              <tr key={key}>
-                <td className="admin-text" style={{ fontWeight: 600, fontSize: '13px' }}>{key}</td>
-                <td>
-                  <textarea 
-                    className="form-input" 
-                    style={{ minHeight: '60px', padding: '8px', fontSize: '13px', lineHeight: 1.4 }} 
-                    value={translations.uz[key] || ''} 
-                    onChange={e => handleUpdate('uz', key, e.target.value)}
-                  />
-                </td>
-                <td>
-                  <textarea 
-                    className="form-input" 
-                    style={{ minHeight: '60px', padding: '8px', fontSize: '13px', lineHeight: 1.4 }} 
-                    value={translations.ru[key] || ''} 
-                    onChange={e => handleUpdate('ru', key, e.target.value)}
-                  />
-                </td>
-                <td>
-                  <textarea 
-                    className="form-input" 
-                    style={{ minHeight: '60px', padding: '8px', fontSize: '13px', lineHeight: 1.4 }} 
-                    value={translations.en[key] || ''} 
-                    onChange={e => handleUpdate('en', key, e.target.value)}
-                  />
-                </td>
-                <td>
-                  <button 
-                    onClick={() => handleDeleteKey(key)} 
-                    style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '6px 8px', cursor: 'pointer', color: '#EF4444' }}
-                  >
-                    <Trash2 size={14} />
-                  </button>
-                </td>
-              </tr>
+              <div key={key} style={{ border: '1px solid var(--border-color)', borderRadius: '12px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontWeight: 700, fontSize: '12px', color: '#FF6B00', background: 'rgba(255,107,0,0.08)', padding: '3px 10px', borderRadius: 20 }}>{key}</span>
+                  <button onClick={() => handleDeleteKey(key)} style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '6px 8px', cursor: 'pointer', color: '#EF4444' }}><Trash2 size={14} /></button>
+                </div>
+                {['uz', 'ru', 'en'].map(lang => (
+                  <div key={lang}>
+                    <label style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>{lang === 'uz' ? "O'zbekcha" : lang === 'ru' ? 'Ruscha' : 'Inglizcha'}</label>
+                    <textarea className="form-input" style={{ minHeight: '52px', padding: '8px', fontSize: '13px', lineHeight: 1.4, width: '100%' }}
+                      value={translations[lang]?.[key] || ''} onChange={e => handleUpdate(lang, key, e.target.value)} />
+                  </div>
+                ))}
+              </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        ) : (
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th style={{ width: '15%' }}>Klyuch</th>
+                <th style={{ width: '25%' }}>O'zbekcha</th>
+                <th style={{ width: '25%' }}>Ruscha</th>
+                <th style={{ width: '25%' }}>Inglizcha</th>
+                <th style={{ width: '10%' }}>Amal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allKeys.map(key => (
+                <tr key={key}>
+                  <td className="admin-text" style={{ fontWeight: 600, fontSize: '13px' }}>{key}</td>
+                  <td>
+                    <textarea 
+                      className="form-input" 
+                      style={{ minHeight: '60px', padding: '8px', fontSize: '13px', lineHeight: 1.4 }} 
+                      value={translations.uz[key] || ''} 
+                      onChange={e => handleUpdate('uz', key, e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <textarea 
+                      className="form-input" 
+                      style={{ minHeight: '60px', padding: '8px', fontSize: '13px', lineHeight: 1.4 }} 
+                      value={translations.ru[key] || ''} 
+                      onChange={e => handleUpdate('ru', key, e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <textarea 
+                      className="form-input" 
+                      style={{ minHeight: '60px', padding: '8px', fontSize: '13px', lineHeight: 1.4 }} 
+                      value={translations.en[key] || ''} 
+                      onChange={e => handleUpdate('en', key, e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <button 
+                      onClick={() => handleDeleteKey(key)} 
+                      style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '6px 8px', cursor: 'pointer', color: '#EF4444' }}
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   )

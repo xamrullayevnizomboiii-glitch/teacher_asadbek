@@ -764,10 +764,11 @@
         .contact-card.phone:hover { box-shadow: 0 0 25px rgba(37,211,102,0.2); transform: scale(1.03); }
 
         .contact-card svg { width: 3rem; height: 3rem; margin-bottom: 0.5rem; }
-
+        .contact-card i { font-size: 4.5rem; margin-bottom: 1rem; }
         .contact-card h4 { font-size: 1.5rem; margin-bottom: 0.5rem; }
         .contact-card p { font-weight: 600; font-size: 1.1rem; }
         .contact-right { display: none; }
+        .contact-list-mobile { display: none; }
 
         /* Footer */
         footer {
@@ -1228,9 +1229,7 @@
 
             /* --- BOG'LANISH BO'LIMI (Faqat mobil) --- */
             .contact-grid {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 10px !important;
+                display: none !important;
             }
             .contact-card {
                 display: flex !important;
@@ -1735,12 +1734,12 @@
                 <h3 class="certs-title" data-i18n="certs_title">Ustoz Sertifikatlari va Yutuqlari</h3>
                 <div class="certs-grid">
                   <div class="cert-card cert-cefr">
-                    <div class="cert-icon-circle"><i class="ti ti-medal"></i></div>
+                    <div class="cert-icon-circle"><i class="fas fa-medal"></i></div>
                     <div><h4>CEFR C1</h4><p>Ingliz tili · C1</p></div>
                     <div class="cert-divider-cefr"><span class="cert-status">Tasdiqlangan ✓</span></div>
                   </div>
                   <div class="cert-card cert-aptis">
-                    <div class="cert-icon-circle"><i class="ti ti-rosette"></i></div>
+                    <div class="cert-icon-circle"><i class="fas fa-award"></i></div>
                     <div><h4>APTIS</h4><p>British Council</p></div>
                     <div class="cert-divider-aptis"><span class="cert-status">Xalqaro ✓</span></div>
                   </div>
@@ -1914,6 +1913,21 @@
         <div class="container">
             <h2 class="section-title font-times" data-aos="fade-up" data-i18n="contact_title">Bog'lanish</h2>
             
+            <div class="contact-grid">
+                <a class="contact-card telegram" href="https://t.me/Multilevel_instructor1" data-aos="fade-up">
+                    <i class="fab fa-telegram-plane"></i>
+                    <p>@Multilevel_instructor1</p>
+                </a>
+                <a class="contact-card instagram" href="https://instagram.com/teacher_arakulov" data-aos="fade-up" data-aos-delay="150">
+                    <i class="fab fa-instagram"></i>
+                    <p>teacher_arakulov</p>
+                </a>
+                <a class="contact-card phone" href="tel:+998995282728" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-phone-alt"></i>
+                    <p>+998 99 528 27 28</p>
+                </a>
+            </div>
+
             <div class="contact-list-mobile">
 
               <a class="contact-row telegram-row" href="https://t.me/Multilevel_instructor1">

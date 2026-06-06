@@ -29,6 +29,14 @@ export default function ReviewsPage() {
   const [modal, setModal] = useState(false)
   const [form, setForm] = useState(emptyForm)
   const [saving, setSaving] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const fetchReviews = async () => {
     const { data } = await supabase.from('reviews').select('*').order('created_at', { ascending: false })
@@ -85,7 +93,7 @@ export default function ReviewsPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', gap: isMobile ? '12px' : '0', marginBottom: '28px' }}>
         <div>
           <h1 className="admin-h1" style={{ fontSize: '24px' }}>Sharhlar</h1>
           <p className="admin-text" style={{ fontSize: '14px', marginTop: '4px' }}>O'quvchilar sharhlarini boshqarish</p>
@@ -101,7 +109,7 @@ export default function ReviewsPage() {
                 <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#EAB308' }}>Tasdiqlanmagan sharhlar</h2>
                 <span style={{ background: 'rgba(234,179,8,0.1)', color: '#EAB308', padding: '2px 10px', borderRadius: 20, fontSize: '12px', fontWeight: 700 }}>{pending.length}</span>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px' }}>
                 {pending.map(r => <ReviewCard key={r.id} r={r} />)}
               </div>
             </div>
@@ -112,7 +120,7 @@ export default function ReviewsPage() {
               <span style={{ background: 'rgba(34,197,94,0.1)', color: '#22C55E', padding: '2px 10px', borderRadius: 20, fontSize: '12px', fontWeight: 700 }}>{approved.length}</span>
             </div>
             {approved.length === 0 && pending.length === 0 ? <EmptyState icon={Star} title="Ma'lumot yo'q" subtitle="Hali hech qanday sharh qo'shilmagan" /> : approved.length === 0 ? <p className="admin-text" style={{ fontSize: '14px' }}>Hali tasdiqlangan sharhlar yo'q</p> : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px' }}>
                 {approved.map(r => <ReviewCard key={r.id} r={r} />)}
               </div>
             )}
@@ -122,7 +130,7 @@ export default function ReviewsPage() {
 
       {modal && (
         <div className="modal-overlay" onClick={e => e.target === e.currentTarget && setModal(false)}>
-          <div className="modal-box">
+          <div className="modal-box" style={{ width: isMobile ? '95vw' : undefined, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
               <h3 className="admin-h3" style={{ fontSize: '18px' }}>Sharh qo'shish</h3>
               <button onClick={() => setModal(false)} className="admin-text" style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={20} /></button>

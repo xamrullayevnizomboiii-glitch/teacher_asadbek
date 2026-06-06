@@ -19,6 +19,14 @@ export default function SettingsPage() {
   const [values, setValues] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     const fetch = async () => {
@@ -49,7 +57,7 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', gap: isMobile ? '12px' : '0', marginBottom: '28px' }}>
         <div>
           <h1 className="admin-h1" style={{ fontSize: '24px' }}>Sozlamalar</h1>
           <p className="admin-text" style={{ fontSize: '14px', marginTop: '4px' }}>Sayt ma'lumotlarini tahrirlash</p>
@@ -69,7 +77,7 @@ export default function SettingsPage() {
               <h3 className="admin-h3" style={{ fontSize: '15px', marginBottom: '20px', paddingBottom: '12px', borderBottom: '1px solid rgba(255,107,0,0.1)' }}>
                 {group.title}
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
                 {group.keys.map(key => {
                   const field = defaultSettings.find(s => s.key === key)
                   if (!field) return null
@@ -91,7 +99,7 @@ export default function SettingsPage() {
             <p style={{ color: '#94A3B8', fontSize: '13px', marginBottom: '16px', lineHeight: 1.6 }}>
               Saqlangan ma'lumotlar Supabase orqali landing page ga avtomatik uzatiladi. Landing page quyidagi skriptni o'z ichiga olishi kerak:
             </p>
-            <pre style={{ background: '#0A1628', border: '1px solid rgba(255,107,0,0.1)', borderRadius: '10px', padding: '16px', fontSize: '12px', color: '#94A3B8', overflow: 'auto', lineHeight: 1.8 }}>
+            <pre style={{ background: '#0A1628', border: '1px solid rgba(255,107,0,0.1)', borderRadius: '10px', padding: '16px', fontSize: isMobile ? '11px' : '12px', color: '#94A3B8', overflow: 'auto', maxWidth: '100%', lineHeight: 1.8 }}>
 {`<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const sb = supabase.createClient(
